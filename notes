@@ -1,0 +1,94 @@
+1-  EC2 
+AMI - ami-0f330b426f35ac7f4 
+Server - Ubuntu Server 18.04
+===================================
+
+1. chmod 400 conde.pem
+2. ssh -i conde.pem ubuntu@18.219.45.164
+
+
+============================================
+1-sudo apt-get update
+2-sudo apt-get install docker-compose
+3-sudo apt install python3-pip(package manager)
+4-pip3 install flask
+5-sudo apt-get install nginx(web-server) -- 
+6-sudo apt-get install gunicorn3 
+-- python web server gateway interface / wsgi that works with number of web frameworks
+-- gunicorn will create a unique-socket and server the response to the nginx request via wsgi protocol
+
+===========================================================================================================
+OVERALL CONCEPT
+===========================================================================================================
+-nginx will face the outside world/internet, so it will directly serve the media files like i.e static files images,css directly from the file system.
+-nginx cannot directly communicate with the flask app so we need something in between the web-server(nginx) & our app. So we use gunicorn to run as a interface between web-server(nginx) & the app.
+- gunicorn will fetch the request from the app to the web-server and pass the respose from web-server to the app.
+==================================================================================================================
+
+CONFIGURE nginx
+=======================================================================
+1- cd /etc/nginx/sites-enabled
+2- sudo vim condenast
+--------------------------------------------------
+server{
+    listen 80;
+    server_name 18.219.45.164; // if eip is there then put the eip
+    
+    location / {
+        proxy_pass http:127.0.0.1:8000;
+    }
+}
+-----------------------------------------------------
+3- sudo service nginx restart
+
+4- cd to app directory /condenast
+5- gunicorn3 app:app
+
+============================================================
+set gunicorn3 app:app this as a service
+============================================================
+
+1- cd /etc/systemd/system
+2- sudo vim gunicorn3.service
+-------------------------------------------------------
+
+[Unit]
+Description=Gunicorn service
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/condenast
+ExecStart=/usr/bin/gunicorn3 --workers 3 --bind unix:condenast.sock -m 007 app:app
+-------------------------------------------------------------------------------------
+3-sudo systemctl daemon-reload
+4-sudo service gunicorn3 start
+5-sudo service gunicorn3 status
+6- Update the nginx file with socket path instead of local host IP
+	-cd  /etc/nginx/sites-enabled
+	-sudo vim condenast
+		------------------------------------------
+
+		server{
+    			listen 80;
+    			server_name 18.219.45.164; // if eip is there then put the eip
+
+    			location / {
+        			proxy_pass http://unix:/home/ubuntu/condenast/condenast.sock;
+        			#proxy_pass http://127.0.0.1:8000;
+
+    			}
+		}
+		server{
+			listen 8080;
+			//In case you run 2 applications on the ec2
+		}
+	------------------------------------------------------------------
+	- sudo service nginx restart
+	-sudo service gunicorn3 restart
+========================================================================================================
+CREATE EIP- Elastic IP (public facing or internet facing IPv4 that can be access anywhere)
+========================================================================================================
+
+

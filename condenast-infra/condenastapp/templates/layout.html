@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>Conde Nast - {{ title }}</title>
+    {% else %}
+        <title>Conde Nast</title>
+    {% endif %}
+</head>
+<body>
+   {% block content %}{%endblock%}
+</body>
+</html>
