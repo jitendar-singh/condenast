@@ -1,4 +1,30 @@
 # condenast
+```
+├── condenast-infra
+│   ├── condenastapp
+│   │   ├── app.py
+│   │   └── templates
+│   │       ├── home.html
+│   │       └── layout.html
+│   ├── Dockerfile
+│   └── requirements.txt
+├── Condenast-Terraform
+│   ├── main.tf
+│   ├── provider.tf
+│   └── web
+│       ├── eip.tf
+│       ├── server-script.sh
+│       ├── sg.tf
+│       └── web.tf
+├── docker-compose.yml
+├── keypair
+│   └── conde.pem
+├── nginx
+│   ├── condenastapp.conf
+│   └── Dockerfile
+├── notes
+└── README.md
+```
 ## Key Components
 - web server - nginx
 - gunicorn - it is a python web server gateway interface / wsgi that works with number of web frameworks; gunicorn will create a unique-socket and server the response to the nginx request via wsgi protocol
@@ -98,7 +124,7 @@
 
 ## Approach 3 : Use Terraform to build the infrastructure & deploy the containerized microservice architecture app using a script inside terraform code.
 ```
-.
+.Condenast-Terraform
 ├── main.tf
 ├── provider.tf
 └── web
@@ -112,11 +138,11 @@
 - Find the commands along with output
 
 ```
-[jsingh@localhost condenast-build-infra]$ terraform plan
+[jsingh@localhost Condenast-Terraform]$ terraform plan
 .
 .
 .
-[jsingh@localhost condenast-build-infra]$ terraform apply
+[jsingh@localhost Condenast-Terraform]$ terraform apply
 aws_iam_user.main_user: Refreshing state... [id=Mainuser]
 module.webmodule.aws_security_group.web_sg: Refreshing state... [id=sg-09dd261da1db4568a]
 
@@ -143,7 +169,7 @@ module.webmodule.aws_eip.web_eip: Creating...
 module.webmodule.aws_eip.web_eip: Creation complete after 5s [id=eipalloc-02d1c1826581a5851]
 
 Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
-[jsingh@localhost condenast-build-infra]$ ^C
+[jsingh@localhost Condenast-Terraform]$ ^C
 ```
 ## This is work in progress will work on it over the weekend, infrstrucure is build but some issue with the server-script.
 
