@@ -149,6 +149,10 @@ Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 
 ## Approach 4: Deploy application on Opneshift cluster running on aws
 - Spin up a openshift cluster
+- Create a new-project (namespace)
+```
+    oc new-project condenast-test
+```
 - Import the docker image of the application
 ```
   oc import-image sunnyconcise/condenast:v1 condenast --confirm
@@ -167,3 +171,6 @@ Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
   oc get routes
 ```
 - Use the route to browse through the application
+```
+    http://condenast-condenast-test.apps.jenkins-dev-4.5-070104.qe.devcluster.openshift.com/helloworld
+```
