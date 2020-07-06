@@ -172,8 +172,7 @@ module.webmodule.aws_eip.web_eip: Creation complete after 5s [id=eipalloc-02d1c1
 Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 [jsingh@localhost Condenast-Terraform]$ ^C
 ```
-## This is work in progress will work on it over the weekend, infrstrucure is build but some issue with the server-script.
-
+- use the public ip of the ec2 instance in your web-browser to browse the condenast App.
 ## Approach 4: Deploy application on Opneshift cluster running on aws
 - Spin up a openshift cluster
 - Create a new-project (namespace)
