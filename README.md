@@ -49,6 +49,7 @@
 - We need to configure the security groups to allow the traffic on specific ports & we create associate an eip(elastic ip or static ip) with the ec2 instance so that even if the ec2 isntance reboots new public ip is not generated.
 - SSH into the EC2 instance & follow the steps below
    ``` 
+  1-sudo apt-get update 
   2-sudo apt-get install docker-compose
   3-sudo apt install python3-pip
   4-pip3 install flask
